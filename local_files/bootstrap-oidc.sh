@@ -83,7 +83,7 @@ echo "SP_OBJECT_ID: $SP_OBJECT_ID"
 # fi
 
 # Assign Contributor role to Service Principal
-az role assignment create --assignee "$APP_ID" --role "Contributor" --scope "\subscriptions\676b5883-eb15-4e62-b863-d25d4a0bffc9"
+az role assignment create --assignee "$APP_ID" --role "Contributor" --scope "\\subscriptions\\$SUBSCRIPTION_ID"
 
 # Assign Graph API permissions
 echo "🔒 Assigning Microsoft Graph permissions..."
