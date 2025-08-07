@@ -8,7 +8,7 @@ echo "🛠️ GitHub OIDC App Registration Bootstrap Script"
 read -p "Enter App Registration name (e.g. GitHub-OIDC): " APP_NAME
 read -p "Enter your GitHub repo (e.g. mystic001/oidc-test): " GITHUB_REPO
 read -p "Enter the branch to allow (e.g. main): " BRANCH
-
+read -p "Enter the subscription ID (e.g. 12345678-1234-1234-1234-123456789012): " SUBSCRIPTION_ID
 
 SUBJECT="repo:${GITHUB_REPO}:ref:refs/heads/${BRANCH}"
 SECRET1="AZURE_CLIENT_ID"
@@ -70,6 +70,9 @@ az rest --method POST \
 az ad sp create --id "$APP_ID"
 az ad sp show --id "$APP_ID"
 
+
+# Assign Contributor role to Service Principal
+az role assignment create --assignee "$OBJECT_ID" --role "Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID"
 
 # Assign Graph API permissions
 echo "🔒 Assigning Microsoft Graph permissions..."
