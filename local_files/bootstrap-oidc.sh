@@ -14,6 +14,9 @@ SUBJECT="repo:${GITHUB_REPO}:ref:refs/heads/${BRANCH}"
 SECRET1="AZURE_CLIENT_ID"
 SECRET2="AZURE_TENANT_ID"
 SECRET3="AZURE_SUBSCRIPTION_ID"
+API_ID="00000003-0000-0000-c000-000000000000"
+APPLICATION_READ_ALL="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
+DIRECTORY_READ_ALL="19dbc75e-c2e2-444c-a770-ec69d8559fc7"
 
 # Check dependencies
 command -v az >/dev/null || { echo "❌ Azure CLI (az) is not installed."; exit 1; }
@@ -80,13 +83,13 @@ echo "🔒 Assigning Microsoft Graph permissions..."
 echo "Using APP_ID: '$APP_ID'"
 az ad app permission add --id "$APP_ID" \
   --api 00000003-0000-0000-c000-000000000000 \
-  --api-permissions "1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"=Role
+  --api-permissions $APPLICATION_READ_ALL=Role
 
 
 echo "🔒 Assigning Microsoft Graph permissions..."
 az ad app permission add --id "$APP_ID" \
-  --api 00000003-0000-0000-c000-000000000000 \
-  --api-permissions "19dbc75e-c2e2-444c-a770-ec69d8559fc7"=Role
+  --api $API_ID \
+  --api-permissions $DIRECTORY_READ_ALL=Role
 
 
   # Grant admin consent
