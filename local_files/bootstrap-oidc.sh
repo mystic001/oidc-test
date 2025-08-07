@@ -77,13 +77,13 @@ az ad sp create --id "$APP_ID"
 SP_OBJECT_ID=$(az ad sp show --id $APP_ID --query "id" -o tsv)
 echo "SP_OBJECT_ID: $SP_OBJECT_ID"
 
-if [[ -z "$SP_OBJECT_ID" || "$SP_OBJECT_ID" == "null" ]]; then
-  echo "❌ Failed to retrieve valid SP Object ID"
-  exit 1
-fi
+# if [[ -z "$SP_OBJECT_ID" || "$SP_OBJECT_ID" == "null" ]]; then
+#   echo "❌ Failed to retrieve valid SP Object ID"
+#   exit 1
+# fi
 
 # Assign Contributor role to Service Principal
-az role assignment create --assignee "$SP_OBJECT_ID" --role "Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID"
+az role assignment create --assignee "$APP_ID" --role "Contributor" --scope "\subscriptions\676b5883-eb15-4e62-b863-d25d4a0bffc9"
 
 # Assign Graph API permissions
 echo "🔒 Assigning Microsoft Graph permissions..."
