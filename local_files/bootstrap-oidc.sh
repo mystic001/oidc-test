@@ -75,6 +75,8 @@ az ad sp create --id "$APP_ID"
 # az ad sp show --id "$APP_ID"
 
 SP_OBJECT_ID=$(az ad sp show --id $APP_ID --query "id" -o tsv)
+echo "SP_OBJECT_ID: $SP_OBJECT_ID"
+  
 # Assign Contributor role to Service Principal
 az role assignment create --assignee "$SP_OBJECT_ID" --role "Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID"
 
