@@ -26,28 +26,12 @@ az account show > /dev/null || az login
 
 # Get tenant ID
 TENANT_ID=$(az account show --query tenantId -o tsv)
-
-# # Create App Registration
-# APP_INFO=$(az ad app create --display-name "$APP_NAME")
-
-# APP_ID=$(echo "$APP_INFO" | jq -r '.appId')
-# # OBJECT_ID=$(az ad app show --id "$APP_ID" --query "id" -o tsv)
-# OBJECT_ID = $(az ad sp list --filter "appId eq '$APP_ID'" --query '[0].id' -o tsv | tr -d '[:space:]')
-# OBJECT_ID = $(az ad sp list --filter "appId eq '$appID'" --query '[0].id' -o tsv | tr -d '[:space:]')
-
-
-
-
 # Create the app registration
 APP_INFO=$(az ad app create --display-name "$APP_NAME")
-
 # Extract the appId from APP_INFO
 APP_ID=$(echo "$APP_INFO" | jq -r '.appId')
-
 # Get the object ID using the app ID
 OBJECT_ID=$(echo "$APP_INFO" | jq -r '.objectId')
-
-
 
 echo "App Info: $APP_INFO"
 echo "App ID: $APP_ID"
