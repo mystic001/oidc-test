@@ -13,6 +13,7 @@ read -p "Enter the subscription ID (e.g. 12345678-1234-1234-1234-123456789012): 
 SUBJECT="repo:${GITHUB_REPO}:ref:refs/heads/${BRANCH}"
 SECRET1="AZURE_CLIENT_ID"
 SECRET2="AZURE_TENANT_ID"
+SECRET3="AZURE_SUBSCRIPTION_ID"
 
 # Check dependencies
 command -v az >/dev/null || { echo "❌ Azure CLI (az) is not installed."; exit 1; }
@@ -97,12 +98,13 @@ az ad app permission admin-consent --id "$APP_ID"
 echo "📤 Saving secrets to GitHub repository: $GITHUB_REPO..."
 gh secret set "$SECRET1" --repo "$GITHUB_REPO" --body "$APP_ID"
 gh secret set "$SECRET2" --repo "$GITHUB_REPO" --body "$TENANT_ID"
-
+gh secret set "$SECRET3" --repo "$GITHUB_REPO" --body "$SUBSCRIPTION_ID"
 echo ""
 echo "✅ Setup complete!"
 echo "🔐 Saved secrets:"
 echo "- $SECRET1 = $APP_ID"
 echo "- $SECRET2 = $TENANT_ID"
+echo "- $SECRET3 = $SUBSCRIPTION_ID"
 echo ""
 echo "🎯 You can now use OIDC login in GitHub Actions for '$GITHUB_REPO' on branch '$BRANCH'"
 
