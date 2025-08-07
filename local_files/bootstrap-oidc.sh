@@ -82,7 +82,7 @@ az role assignment create --assignee "$OBJECT_ID" --role "Contributor" --scope "
 echo "🔒 Assigning Microsoft Graph permissions..."
 echo "Using APP_ID: '$APP_ID'"
 az ad app permission add --id "$APP_ID" \
-  --api 00000003-0000-0000-c000-000000000000 \
+  --api $API_ID \
   --api-permissions $APPLICATION_READ_ALL=Role
 
 
