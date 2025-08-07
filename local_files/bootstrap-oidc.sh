@@ -76,7 +76,7 @@ az ad sp show --id "$APP_ID"
 
 
 # Assign Contributor role to Service Principal
-az role assignment create --assignee "$APP_ID" --role "Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID"
+az role assignment create --assignee "$OBJECT_ID" --role "Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID"
 
 # Assign Graph API permissions
 echo "🔒 Assigning Microsoft Graph permissions..."
