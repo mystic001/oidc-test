@@ -27,5 +27,5 @@ async def me():
         if me:
             print(me.display_name)
     except APIError as e:
-        print(f"Error fetching user: {e}")
+        print(f"Error fetching user: {e.error.message}")
 asyncio.run(me())
