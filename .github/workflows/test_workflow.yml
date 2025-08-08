@@ -35,6 +35,10 @@ jobs:
                 pip install python-dotenv
                 pip install aiohttp
 
+
+            - name: Checkout code
+              uses: actions/checkout@v4
+              
             - name: Run Python Script
               shell: bash
               env:
