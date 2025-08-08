@@ -44,6 +44,7 @@ jobs:
               env:
                 AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
                 AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+                AZURE_CLIENT_SECRET_ID: ${{ secrets.AZURE_CLIENT_SECRET_ID }}
               run: |
                 python local_files/graph-api.py
 

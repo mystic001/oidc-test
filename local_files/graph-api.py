@@ -11,7 +11,7 @@ import asyncio
 
 tenant_id     = os.getenv('AZURE_TENANT_ID', 'YOUR_TENANT_ID')
 client_id     = os.getenv('AZURE_CLIENT_ID', 'YOUR_CLIENT_ID')
-client_secret = os.getenv('AZURE_CLIENT_SECRET', 'YOUR_SECRET')
+client_secret = os.getenv('AZURE_CLIENT_SECRET_ID', 'YOUR_SECRET')
 scopes = ['https://graph.microsoft.com/.default']
 
 # credential = CertificateCredential(tenant_id=tenant_id,client_id=client_id,)
