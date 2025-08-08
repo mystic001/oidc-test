@@ -14,9 +14,12 @@ SUBJECT="repo:${GITHUB_REPO}:ref:refs/heads/${BRANCH}"
 SECRET1="AZURE_CLIENT_ID"
 SECRET2="AZURE_TENANT_ID"
 SECRET3="AZURE_SUBSCRIPTION_ID"
+SECRET4="AZURE_CLIENT_SECRET_ID"
 API_ID="00000003-0000-0000-c000-000000000000"
 APPLICATION_READ_ALL="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
 DIRECTORY_READ_ALL="19dbc75e-c2e2-444c-a770-ec69d8559fc7"
+CLIENT_SECRET_NAME="$APP_NAME"
+DURATION=2
 
 # Check dependencies
 command -v az >/dev/null || { echo "❌ Azure CLI (az) is not installed."; exit 1; }
@@ -35,7 +38,7 @@ APP_INFO=$(az ad app create --display-name "$APP_NAME")
 # Extract the appId from APP_INFO
 APP_ID=$(echo "$APP_INFO" | jq -r '.appId')
 # Get the object ID using the app ID
-OBJECT_ID=$(echo "$APP_INFO" | jq -r '.objectId')
+OBJECT_ID=$(echo "$APP_INFO" | jq -r '.id')
 
 echo "App Info: $APP_INFO"
 echo "App ID: $APP_ID"
@@ -53,6 +56,8 @@ echo "Client ID: $APP_ID"
 echo "Object ID: $OBJECT_ID"
 echo "Tenant ID: $TENANT_ID"
 
+# Create a client secret
+CLIENT_SECRET=$(az ad app credential reset --id "$APP_ID" --append --display-name "$CLIENT_SECRET_NAME" --years "$DURATION" --display-name "$CLIENT_SECRET_NAME" --query password --output tsv)
 # Get access token for Microsoft Graph
 GRAPH_TOKEN=$(az account get-access-token --resource https://graph.microsoft.com --query accessToken -o tsv)
 
@@ -70,11 +75,12 @@ az rest --method POST \
     \"audiences\": [\"api://AzureADTokenExchange\"]
   }"
 
+
 #Create Service Principal
 az ad sp create --id "$APP_ID"
 # az ad sp show --id "$APP_ID"
 
-SP_OBJECT_ID=$(az ad sp show --id $APP_ID --query "id" -o tsv)
+SP_OBJECT_ID=$(az ad sp show --id "$APP_ID" --query "id" -o tsv)
 echo "SP_OBJECT_ID: $SP_OBJECT_ID"
 
 # if [[ -z "$SP_OBJECT_ID" || "$SP_OBJECT_ID" == "null" ]]; then
@@ -115,6 +121,7 @@ echo "🔐 Saved secrets:"
 echo "- $SECRET1 = $APP_ID"
 echo "- $SECRET2 = $TENANT_ID"
 echo "- $SECRET3 = $SUBSCRIPTION_ID"
+echo "- $SECRET4 = $CLIENT_SECRET"
 echo ""
 echo "🎯 You can now use OIDC login in GitHub Actions for '$GITHUB_REPO' on branch '$BRANCH'"
 
