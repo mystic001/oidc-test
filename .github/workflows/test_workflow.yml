@@ -36,6 +36,9 @@ jobs:
                 pip install aiohttp
 
             - name: Run Python Script
+              env:
+                AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+                AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
               run: |
                 python local_files/graph-api.py
 
