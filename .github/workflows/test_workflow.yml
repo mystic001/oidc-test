@@ -1,0 +1,43 @@
+name: Login to Azure
+
+on:
+    workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+    login_to_azure:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Create Login to Azure
+              uses: azure/login@v1
+              with:
+                client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+                subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+
+            - name: Set up python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.13.5'
+
+            - name: Install dependencies
+              run: |
+                pip install azure-identity
+                pip install requests
+                pip install msgraph-core
+                pip install msgraph-sdk
+                pip install microsoft-kiota-abstractions
+                pip install microsoft-kiota-http
+                pip install python-dotenv
+                pip install aiohttp
+
+            - name: Run Python Script
+              run: |
+                python local_files/graph-api.py
+
+
+            
